@@ -1,0 +1,13 @@
+#!/bin/bash
+t1=$(xinput | grep 'ELAN2301:00 04F3:306B Touchpad')
+t2=$(echo $t1 | sed 's/ /\n/g' | grep "id")
+res=${t2#"id="}
+
+var=$(xinput list-props $res | grep "Device Enabled")
+resultv=${var:((${#var}-1))}
+
+if [ $resultv -eq 1 ];then
+    xinput set-prop $res "Device Enabled" 0
+else
+    xinput set-prop $res "Device Enabled" 1
+fi
